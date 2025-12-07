@@ -8,7 +8,7 @@ import ChatInterface from './components/ChatInterface';
 import MedicationList from './components/MedicationList';
 import { analyzeMedicationImage, fileToGenerativePart } from './services/geminiService';
 import { AnalysisState, SavedMedication, MedicationAnalysis } from './types';
-import { Loader2 } from 'lucide-react';
+import { Loader2, RefreshCcw, Home as HomeIcon, AlertOctagon } from 'lucide-react';
 
 type View = 'home' | 'scan_result' | 'chat' | 'list';
 
@@ -29,6 +29,10 @@ function App() {
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       processImage(e.target.files[0]);
+    }
+    // CRITICAL: Reset value so the same file can be selected again if the user retries
+    if (fileInputRef.current) {
+        fileInputRef.current.value = '';
     }
   };
 
@@ -54,10 +58,23 @@ function App() {
       });
     } catch (err: any) {
       console.error(err);
+      
+      let friendlyError = "We couldn't analyze this image. Please try again with a clearer photo.";
+      
+      if (err.message) {
+          if (err.message.includes("403") || err.message.includes("API_KEY")) {
+              friendlyError = "Service configuration error. Please check your API connection.";
+          } else if (err.message.includes("fetch") || err.message.includes("network")) {
+              friendlyError = "Network connection failed. Please check your internet.";
+          } else {
+              friendlyError = err.message;
+          }
+      }
+
       setAnalysisState({
         status: 'error',
         data: null,
-        error: err.message || "Something went wrong. Please try again.",
+        error: friendlyError,
         imageUrl,
       });
     }
@@ -151,37 +168,45 @@ function App() {
         {currentView === 'scan_result' && (
           <>
             {analysisState.status === 'analyzing' && (
-              <div className="flex-grow flex flex-col items-center justify-center p-8 text-center">
-                <div className="relative">
+              <div className="flex-grow flex flex-col items-center justify-center p-8 text-center animate-in fade-in duration-300">
+                <div className="relative mb-8">
                   <div className="w-24 h-24 border-4 border-slate-200 border-t-teal-500 rounded-full animate-spin"></div>
                   <div className="absolute inset-0 flex items-center justify-center">
                     <Loader2 className="w-8 h-8 text-teal-600 animate-pulse" />
                   </div>
                 </div>
-                <h3 className="mt-8 text-2xl font-bold text-slate-800">Analyzing Image...</h3>
-                <p className="text-slate-500 mt-2 max-w-md">Our AI is reading the prescription details. This usually takes about 5-10 seconds.</p>
+                <h3 className="text-2xl font-bold text-slate-800">Analyzing Image...</h3>
+                <p className="text-slate-500 mt-2 max-w-md mx-auto">Our AI is reading the prescription details. This usually takes about 5-10 seconds.</p>
               </div>
             )}
 
             {analysisState.status === 'error' && (
-              <div className="flex-grow flex flex-col items-center justify-center p-4">
-                <div className="max-w-md w-full bg-white p-8 rounded-3xl shadow-sm border border-red-100 text-center">
+              <div className="flex-grow flex flex-col items-center justify-center p-4 animate-in slide-in-from-bottom-4 duration-500">
+                <div className="max-w-md w-full bg-white p-8 rounded-3xl shadow-lg border border-red-100 text-center relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-full h-2 bg-red-500"></div>
+                  
                   <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <span className="text-4xl">⚠️</span>
+                    <AlertOctagon className="w-10 h-10 text-red-500" />
                   </div>
-                  <h3 className="text-2xl font-bold text-red-900 mb-2">Analysis Failed</h3>
-                  <p className="text-red-600 mb-8 text-lg">{analysisState.error}</p>
+                  
+                  <h3 className="text-2xl font-bold text-slate-900 mb-2">Analysis Failed</h3>
+                  <p className="text-slate-600 mb-8 text-lg leading-relaxed">
+                    {analysisState.error}
+                  </p>
+                  
                   <div className="space-y-3">
                     <button 
                       onClick={triggerScan}
-                      className="w-full py-4 bg-red-600 text-white rounded-xl font-bold hover:bg-red-700 transition-colors"
+                      className="w-full py-4 bg-red-600 text-white rounded-xl font-bold hover:bg-red-700 active:scale-95 transition-all shadow-md shadow-red-200 flex items-center justify-center"
                     >
+                      <RefreshCcw className="w-5 h-5 mr-2" />
                       Try Again
                     </button>
                     <button 
                       onClick={navigateHome}
-                      className="w-full py-4 bg-white text-slate-600 border border-slate-200 rounded-xl font-bold hover:bg-slate-50 transition-colors"
+                      className="w-full py-4 bg-white text-slate-600 border border-slate-200 rounded-xl font-bold hover:bg-slate-50 active:bg-slate-100 transition-colors flex items-center justify-center"
                     >
+                      <HomeIcon className="w-5 h-5 mr-2" />
                       Back to Home
                     </button>
                   </div>
