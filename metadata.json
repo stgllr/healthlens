@@ -1,0 +1,8 @@
+{
+  "name": "HealthLens",
+  "description": "An intelligent medical assistant that helps users understand prescriptions and medications using AI analysis.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
