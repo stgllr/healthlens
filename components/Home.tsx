@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Camera, Pill, Mic, ClipboardList } from 'lucide-react';
 
@@ -16,40 +15,50 @@ const Home: React.FC<HomeProps> = ({
   onOpenList 
 }) => {
   return (
-    <div className="flex flex-col items-center justify-center py-8 px-4 w-full max-w-5xl mx-auto">
-      <div className="text-center mb-10">
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">
-          How can I help you?
+    // Removed overflow-y-auto to allow native browser scrolling on mobile
+    <div className="w-full max-w-5xl mx-auto px-4 py-8 flex flex-col items-center flex-grow">
+      
+      <div className="text-center mb-8 w-full max-w-lg shrink-0">
+        <h2 className="text-3xl font-extrabold text-slate-900 mb-2 tracking-tight">
+          HealthLens
         </h2>
-        <p className="text-lg text-slate-500">Select an option below to get started.</p>
+        <p className="text-lg text-slate-500 font-medium">
+          Your personal medication assistant.
+        </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-4xl">
+      {/* 
+         Mobile-First Grid Layout:
+         1. Single column (grid-cols-1) for mobile to ensure vertical stacking
+         2. Two columns (sm:grid-cols-2) for tablet/desktop
+         3. 16px gap (gap-4)
+      */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-3xl pb-8">
         <HomeButton 
           icon={<Camera className="w-8 h-8" />}
           title="Scan Prescription"
-          description="Upload or take a photo of your paper prescription"
+          description="Read doctor's notes"
           color="teal"
           onClick={onScanPrescription}
         />
         <HomeButton 
           icon={<Pill className="w-8 h-8" />}
           title="Scan Medication"
-          description="Identify pills, bottles, or boxes"
+          description="Identify pills & boxes"
           color="indigo"
           onClick={onScanMedication}
         />
         <HomeButton 
           icon={<Mic className="w-8 h-8" />}
           title="Ask a Question"
-          description="Chat about side effects, safety, and more"
+          description="Voice Q&A support"
           color="rose"
           onClick={onOpenChat}
         />
         <HomeButton 
           icon={<ClipboardList className="w-8 h-8" />}
           title="My Medications"
-          description="View your saved history"
+          description="View saved history"
           color="amber"
           onClick={onOpenList}
         />
@@ -84,13 +93,15 @@ const HomeButton: React.FC<HomeButtonProps> = ({ icon, title, description, color
   return (
     <button 
       onClick={onClick}
-      className={`group flex flex-col items-center p-8 bg-white rounded-3xl border-2 shadow-sm hover:shadow-xl transition-all duration-300 text-center ${borderClasses[color]}`}
+      className={`group w-full flex items-center p-5 bg-white rounded-2xl border-2 shadow-sm hover:shadow-lg transition-all duration-200 text-left ${borderClasses[color]} min-h-[90px]`}
     >
-      <div className={`p-5 rounded-2xl mb-4 transition-colors duration-300 ${colorClasses[color]}`}>
+      <div className={`p-4 rounded-xl mr-5 shrink-0 transition-colors duration-200 ${colorClasses[color]}`}>
         {icon}
       </div>
-      <h3 className="text-xl font-bold text-slate-800 mb-2">{title}</h3>
-      <p className="text-slate-500 text-sm font-medium">{description}</p>
+      <div className="flex-1 min-w-0">
+        <h3 className="text-xl font-bold text-slate-900 mb-1 leading-tight">{title}</h3>
+        <p className="text-slate-500 text-sm font-medium leading-normal truncate">{description}</p>
+      </div>
     </button>
   );
 };

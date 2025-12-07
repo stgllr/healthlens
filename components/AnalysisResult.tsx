@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MedicationAnalysis, IdentifiedMedication, Interaction } from '../types';
-import { Pill, AlertCircle, Clock, CheckCircle2, ShieldAlert, AlertTriangle, Calendar, BellRing, Save, Snowflake, MessageCircleQuestion, Check, ClipboardList } from 'lucide-react';
+import { Pill, AlertCircle, Clock, CheckCircle2, ShieldAlert, AlertTriangle, Calendar, BellRing, Save, Snowflake, MessageCircleQuestion, Check, ClipboardList, X } from 'lucide-react';
 
 interface AnalysisResultProps {
   data: MedicationAnalysis;
@@ -11,6 +11,8 @@ interface AnalysisResultProps {
 }
 
 const AnalysisResult: React.FC<AnalysisResultProps> = ({ data, imageUrl, onReset, onSave, isSaved = false }) => {
+  const [showReminderModal, setShowReminderModal] = useState(false);
+
   if (!data.isMedication || data.medications.length === 0) {
     return (
       <div className="max-w-2xl mx-auto mt-8 p-6 bg-white rounded-2xl shadow-sm border border-slate-200 text-center">
@@ -48,7 +50,7 @@ const AnalysisResult: React.FC<AnalysisResultProps> = ({ data, imageUrl, onReset
             className={`flex items-center px-6 py-3 rounded-xl font-bold transition-all shadow-sm ${
                 isSaved 
                 ? 'bg-teal-100 text-teal-700 cursor-default' 
-                : 'bg-teal-600 text-white hover:bg-teal-700 hover:shadow-md'
+                : 'bg-teal-600 text-white hover:bg-teal-700 hover:shadow-md active:scale-95'
             }`}
         >
             <Save className={`w-5 h-5 mr-2 ${isSaved ? 'fill-current' : ''}`} />
@@ -86,15 +88,18 @@ const AnalysisResult: React.FC<AnalysisResultProps> = ({ data, imageUrl, onReset
              </div>
          )}
          
-         <div className="bg-indigo-50 rounded-2xl p-6 border border-indigo-100 shadow-sm">
-             <div className="flex items-center mb-3 text-indigo-900">
+         <div className="bg-indigo-50 rounded-2xl p-6 border border-indigo-100 shadow-sm relative overflow-hidden">
+             <div className="flex items-center mb-3 text-indigo-900 relative z-10">
                 <BellRing className="w-6 h-6 text-indigo-600 mr-2" />
                 <h3 className="font-bold text-lg">📱 Set reminders?</h3>
              </div>
-             <p className="text-indigo-800 leading-relaxed font-medium">
+             <p className="text-indigo-800 leading-relaxed font-medium relative z-10">
                  {data.reminderSuggestion}
              </p>
-             <button className="mt-4 text-sm font-bold text-indigo-600 hover:text-indigo-800 flex items-center bg-white px-4 py-2 rounded-lg border border-indigo-200 shadow-sm">
+             <button 
+                onClick={() => setShowReminderModal(true)}
+                className="mt-4 relative z-10 text-sm font-bold text-indigo-600 hover:text-indigo-800 active:text-indigo-900 flex items-center bg-white px-4 py-2.5 rounded-lg border border-indigo-200 shadow-sm active:bg-indigo-50 active:scale-95 transition-all touch-manipulation select-none"
+             >
                  Create Reminder <span className="ml-1">→</span>
              </button>
          </div>
@@ -103,11 +108,65 @@ const AnalysisResult: React.FC<AnalysisResultProps> = ({ data, imageUrl, onReset
       <div className="flex flex-col sm:flex-row justify-center gap-4 mt-12">
         <button
           onClick={onReset}
-          className="w-full sm:w-auto inline-flex items-center justify-center px-10 py-4 border border-slate-200 text-lg font-bold rounded-full text-slate-600 bg-white hover:bg-slate-50 shadow-sm hover:shadow-md transition-all"
+          className="w-full sm:w-auto inline-flex items-center justify-center px-10 py-4 border border-slate-200 text-lg font-bold rounded-full text-slate-600 bg-white hover:bg-slate-50 shadow-sm hover:shadow-md transition-all active:scale-95"
         >
           Scan Another Item
         </button>
       </div>
+
+      {/* Reminder Modal */}
+      {showReminderModal && (
+        <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4 h-[100dvh]">
+           {/* Backdrop */}
+           <div 
+             className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200"
+             onClick={() => setShowReminderModal(false)}
+           ></div>
+           
+           {/* Modal Content */}
+           <div className="relative bg-white w-full max-w-md rounded-t-3xl sm:rounded-2xl p-6 shadow-2xl transform transition-all animate-in slide-in-from-bottom-full duration-300 sm:duration-200 sm:zoom-in-95 flex flex-col max-h-[85vh]">
+              <div className="flex justify-between items-center mb-6">
+                 <div className="flex items-center space-x-2 text-indigo-600">
+                    <div className="bg-indigo-100 p-2 rounded-full">
+                        <BellRing className="w-5 h-5" />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900">Set Reminder</h3>
+                 </div>
+                 <button 
+                    onClick={() => setShowReminderModal(false)} 
+                    className="p-2 bg-slate-100 rounded-full hover:bg-slate-200 active:bg-slate-300 transition-colors"
+                 >
+                    <X className="w-5 h-5 text-slate-600" />
+                 </button>
+              </div>
+              
+              <div className="bg-slate-50 p-5 rounded-xl mb-6 border border-slate-100 overflow-y-auto">
+                 <p className="text-slate-500 font-bold mb-2 text-xs uppercase tracking-wide">Suggested Schedule</p>
+                 <p className="text-slate-800 font-medium text-lg leading-relaxed">{data.reminderSuggestion}</p>
+              </div>
+
+              <div className="space-y-3 mt-auto">
+                 <button 
+                    onClick={() => {
+                        // In a real app, this would use the Web Share API or Calendar API
+                        alert("In a full app, this would open your calendar!"); 
+                        setShowReminderModal(false);
+                    }} 
+                    className="w-full py-4 bg-indigo-600 text-white font-bold rounded-xl text-lg shadow-lg shadow-indigo-200 active:scale-95 transition-transform flex items-center justify-center"
+                 >
+                    <Calendar className="w-5 h-5 mr-2" />
+                    Add to Calendar
+                 </button>
+                 <button 
+                    onClick={() => setShowReminderModal(false)} 
+                    className="w-full py-4 bg-white text-slate-600 font-bold border border-slate-200 rounded-xl hover:bg-slate-50 active:bg-slate-100 transition-colors"
+                 >
+                    Cancel
+                 </button>
+              </div>
+           </div>
+        </div>
+      )}
     </div>
   );
 };
