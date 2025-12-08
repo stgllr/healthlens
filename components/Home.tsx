@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Camera, Pill, Mic, ClipboardList } from 'lucide-react';
 
@@ -19,10 +20,10 @@ const Home: React.FC<HomeProps> = ({
     <div className="w-full max-w-5xl mx-auto px-4 py-8 flex flex-col items-center flex-grow">
       
       <div className="text-center mb-8 w-full max-w-lg shrink-0">
-        <h2 className="text-3xl font-extrabold text-slate-900 mb-2 tracking-tight">
+        <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mb-2 tracking-tight">
           HealthLens
         </h2>
-        <p className="text-lg text-slate-500 font-medium">
+        <p className="text-lg text-slate-500 dark:text-slate-400 font-medium">
           Your personal medication assistant.
         </p>
       </div>
@@ -77,30 +78,30 @@ interface HomeButtonProps {
 
 const HomeButton: React.FC<HomeButtonProps> = ({ icon, title, description, color, onClick }) => {
   const colorClasses = {
-    teal: 'bg-teal-50 text-teal-700 group-hover:bg-teal-600 group-hover:text-white',
-    indigo: 'bg-indigo-50 text-indigo-700 group-hover:bg-indigo-600 group-hover:text-white',
-    rose: 'bg-rose-50 text-rose-700 group-hover:bg-rose-600 group-hover:text-white',
-    amber: 'bg-amber-50 text-amber-700 group-hover:bg-amber-600 group-hover:text-white',
+    teal: 'bg-teal-50 text-teal-700 dark:bg-teal-900/30 dark:text-teal-400 group-hover:bg-teal-600 group-hover:text-white dark:group-hover:bg-teal-600 dark:group-hover:text-white',
+    indigo: 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white dark:group-hover:bg-indigo-600 dark:group-hover:text-white',
+    rose: 'bg-rose-50 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400 group-hover:bg-rose-600 group-hover:text-white dark:group-hover:bg-rose-600 dark:group-hover:text-white',
+    amber: 'bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 group-hover:bg-amber-600 group-hover:text-white dark:group-hover:bg-amber-600 dark:group-hover:text-white',
   };
 
   const borderClasses = {
-    teal: 'border-teal-100 hover:border-teal-200',
-    indigo: 'border-indigo-100 hover:border-indigo-200',
-    rose: 'border-rose-100 hover:border-rose-200',
-    amber: 'border-amber-100 hover:border-amber-200',
+    teal: 'border-teal-100 dark:border-teal-900/50 hover:border-teal-200 dark:hover:border-teal-700',
+    indigo: 'border-indigo-100 dark:border-indigo-900/50 hover:border-indigo-200 dark:hover:border-indigo-700',
+    rose: 'border-rose-100 dark:border-rose-900/50 hover:border-rose-200 dark:hover:border-rose-700',
+    amber: 'border-amber-100 dark:border-amber-900/50 hover:border-amber-200 dark:hover:border-amber-700',
   };
 
   return (
     <button 
       onClick={onClick}
-      className={`group w-full flex items-center p-5 bg-white rounded-2xl border-2 shadow-sm hover:shadow-lg transition-all duration-200 text-left ${borderClasses[color]} min-h-[90px]`}
+      className={`group w-full flex items-center p-5 bg-white dark:bg-slate-800 rounded-2xl border-2 shadow-sm hover:shadow-lg transition-all duration-200 text-left ${borderClasses[color]} min-h-[90px]`}
     >
       <div className={`p-4 rounded-xl mr-5 shrink-0 transition-colors duration-200 ${colorClasses[color]}`}>
         {icon}
       </div>
       <div className="flex-1 min-w-0">
-        <h3 className="text-xl font-bold text-slate-900 mb-1 leading-tight">{title}</h3>
-        <p className="text-slate-500 text-sm font-medium leading-normal truncate">{description}</p>
+        <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-1 leading-tight">{title}</h3>
+        <p className="text-slate-500 dark:text-slate-400 text-sm font-medium leading-normal truncate">{description}</p>
       </div>
     </button>
   );

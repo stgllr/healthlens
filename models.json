@@ -1,0 +1,249 @@
+[
+  {
+    "provider": "Z.ai",
+    "model_id": "glm-4.5",
+    "hf_repo": "ZhipuAI/glm-4-5",
+    "version": "4.5",
+    "license": "Apache-2.0",
+    "open_weight": true,
+    "recommended_backends": ["gguf", "onnx"],
+    "apple_mlx_optimized": true,
+    "pinokio_available": true,
+    "fit_score": {
+      "reasoning": 9.2,
+      "coding": 8.5,
+      "multimodality": 7.0,
+      "rag": 9.0,
+      "editing": 5.0
+    },
+    "hardware_requirements": {
+      "min_gpu_vram_gb": 16,
+      "min_system_ram_gb": 24,
+      "cpu_only_supported": false
+    },
+    "capabilities": [
+      "text_generation",
+      "coding_assistant",
+      "rag",
+      "agent_tools"
+    ],
+    "media_tasks": {
+      "text_to_video": false,
+      "text_to_image": false,
+      "ocr_detection": true,
+      "image_editing": false,
+      "inpainting": false
+    }
+  },
+  {
+    "provider": "Z.ai",
+    "model_id": "glm-4.5v",
+    "hf_repo": "ZhipuAI/glm-4-5v",
+    "version": "4.5V",
+    "license": "Apache-2.0",
+    "open_weight": true,
+    "recommended_backends": ["gguf", "onnx"],
+    "apple_mlx_optimized": true,
+    "pinokio_available": true,
+    "fit_score": {
+      "reasoning": 8.5,
+      "coding": 7.5,
+      "multimodality": 9.2,
+      "rag": 8.8,
+      "editing": 8.5
+    },
+    "hardware_requirements": {
+      "min_gpu_vram_gb": 16,
+      "min_system_ram_gb": 24,
+      "cpu_only_supported": false
+    },
+    "capabilities": [
+      "text_generation",
+      "vision_language",
+      "image_understanding",
+      "ocr_detection"
+    ],
+    "media_tasks": {
+      "text_to_video": true,
+      "text_to_image": true,
+      "ocr_detection": true,
+      "image_editing": true,
+      "inpainting": false
+    }
+  },
+  {
+    "provider": "Alibaba Cloud",
+    "model_id": "qwen2-vl-7b-instruct",
+    "hf_repo": "Qwen/Qwen2-VL-7B-Instruct",
+    "version": "2.0-VL",
+    "license": "Apache-2.0",
+    "open_weight": true,
+    "recommended_backends": ["gguf", "mlx", "onnx"],
+    "apple_mlx_optimized": true,
+    "pinokio_available": true,
+    "fit_score": {
+      "reasoning": 9.0,
+      "coding": 8.0,
+      "multimodality": 9.5,
+      "rag": 8.5,
+      "editing": 9.5
+    },
+    "hardware_requirements": {
+      "min_gpu_vram_gb": 16,
+      "min_system_ram_gb": 16,
+      "cpu_only_supported": false
+    },
+    "capabilities": [
+      "vision_language",
+      "image_editing",
+      "ocr_detection",
+      "tool_calling"
+    ],
+    "media_tasks": {
+      "text_to_video": false,
+      "text_to_image": false,
+      "ocr_detection": true,
+      "image_editing": true,
+      "inpainting": true
+    }
+  },
+  {
+    "provider": "Microsoft",
+    "model_id": "phi-3.5-vision",
+    "hf_repo": "microsoft/Phi-3.5-vision-instruct",
+    "version": "3.5",
+    "license": "MIT",
+    "open_weight": true,
+    "recommended_backends": ["onnx", "mlx"],
+    "apple_mlx_optimized": true,
+    "pinokio_available": true,
+    "fit_score": {
+      "reasoning": 8.0,
+      "coding": 7.5,
+      "multimodality": 8.5,
+      "rag": 7.0,
+      "editing": 8.0
+    },
+    "hardware_requirements": {
+      "min_gpu_vram_gb": 8,
+      "min_system_ram_gb": 16,
+      "cpu_only_supported": true
+    },
+    "capabilities": [
+      "vision_language",
+      "ocr_detection",
+      "lightweight"
+    ],
+    "media_tasks": {
+      "text_to_video": false,
+      "text_to_image": false,
+      "ocr_detection": true,
+      "image_editing": true,
+      "inpainting": true
+    }
+  },
+  {
+    "provider": "LLaVA",
+    "model_id": "llava-next-video-34b",
+    "hf_repo": "llava-hf/llava-1.6-34b-hf",
+    "version": "1.6",
+    "license": "Apache-2.0",
+    "open_weight": true,
+    "recommended_backends": ["gguf"],
+    "apple_mlx_optimized": false,
+    "pinokio_available": true,
+    "fit_score": {
+      "reasoning": 8.8,
+      "coding": 6.5,
+      "multimodality": 9.0,
+      "rag": 7.5,
+      "editing": 9.0
+    },
+    "hardware_requirements": {
+      "min_gpu_vram_gb": 24,
+      "min_system_ram_gb": 64,
+      "cpu_only_supported": false
+    },
+    "capabilities": [
+      "vision_language",
+      "video_understanding",
+      "complex_reasoning"
+    ],
+    "media_tasks": {
+      "text_to_video": false,
+      "text_to_image": false,
+      "ocr_detection": true,
+      "image_editing": true,
+      "inpainting": false
+    }
+  },
+  {
+    "provider": "DeepSeek",
+    "model_id": "deepseek-vl2",
+    "hf_repo": "deepseek-ai/deepseek-vl2-small",
+    "version": "2.0",
+    "license": "MIT",
+    "open_weight": true,
+    "recommended_backends": ["gguf"],
+    "apple_mlx_optimized": false,
+    "pinokio_available": true,
+    "fit_score": {
+      "reasoning": 8.5,
+      "coding": 8.0,
+      "multimodality": 8.5,
+      "rag": 8.0,
+      "editing": 8.2
+    },
+    "hardware_requirements": {
+      "min_gpu_vram_gb": 12,
+      "min_system_ram_gb": 16,
+      "cpu_only_supported": false
+    },
+    "capabilities": [
+      "vision_language",
+      "visual_reasoning"
+    ],
+    "media_tasks": {
+      "text_to_video": false,
+      "text_to_image": false,
+      "ocr_detection": true,
+      "image_editing": true,
+      "inpainting": true
+    }
+  },
+  {
+    "provider": "OpenBMB",
+    "model_id": "minicpm-v-2.6",
+    "hf_repo": "openbmb/MiniCPM-V-2_6",
+    "version": "2.6",
+    "license": "Apache-2.0",
+    "open_weight": true,
+    "recommended_backends": ["gguf", "mlx"],
+    "apple_mlx_optimized": true,
+    "pinokio_available": true,
+    "fit_score": {
+      "reasoning": 8.2,
+      "coding": 7.0,
+      "multimodality": 9.0,
+      "rag": 7.5,
+      "editing": 8.0
+    },
+    "hardware_requirements": {
+      "min_gpu_vram_gb": 8,
+      "min_system_ram_gb": 16,
+      "cpu_only_supported": true
+    },
+    "capabilities": [
+      "vision_language",
+      "mobile_optimized",
+      "ocr_detection"
+    ],
+    "media_tasks": {
+      "text_to_video": false,
+      "text_to_image": false,
+      "ocr_detection": true,
+      "image_editing": true,
+      "inpainting": false
+    }
+  }
+]

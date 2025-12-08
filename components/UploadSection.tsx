@@ -1,3 +1,4 @@
+
 import React, { useRef, useState } from 'react';
 import { Upload, Camera, Image as ImageIcon, Loader2 } from 'lucide-react';
 
@@ -44,7 +45,9 @@ const UploadSection: React.FC<UploadSectionProps> = ({ onImageSelected, isAnalyz
     <div className="w-full max-w-2xl mx-auto mt-8 px-4">
       <div 
         className={`relative group rounded-2xl border-2 border-dashed transition-all duration-300 ease-in-out p-8 text-center
-          ${dragActive ? 'border-teal-500 bg-teal-50' : 'border-slate-300 bg-white hover:border-teal-400 hover:bg-slate-50'}
+          ${dragActive 
+            ? 'border-teal-500 bg-teal-50 dark:bg-teal-900/20' 
+            : 'border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-teal-400 hover:bg-slate-50 dark:hover:bg-slate-700/50'}
           ${isAnalyzing ? 'opacity-50 pointer-events-none' : 'cursor-pointer'}
         `}
         onDragEnter={handleDrag}
@@ -64,20 +67,20 @@ const UploadSection: React.FC<UploadSectionProps> = ({ onImageSelected, isAnalyz
 
         <div className="flex flex-col items-center justify-center space-y-4">
           {isAnalyzing ? (
-            <div className="animate-spin text-teal-600">
+            <div className="animate-spin text-teal-600 dark:text-teal-400">
               <Loader2 className="w-12 h-12" />
             </div>
           ) : (
-            <div className="bg-teal-100 p-4 rounded-full text-teal-600 group-hover:scale-110 transition-transform duration-300">
+            <div className="bg-teal-100 dark:bg-teal-900/30 p-4 rounded-full text-teal-600 dark:text-teal-400 group-hover:scale-110 transition-transform duration-300">
               <Camera className="w-8 h-8" />
             </div>
           )}
           
           <div className="space-y-2">
-            <h3 className="text-xl font-semibold text-slate-700">
+            <h3 className="text-xl font-semibold text-slate-700 dark:text-slate-200">
               {isAnalyzing ? 'Analyzing Medication...' : 'Upload Prescription or Pill'}
             </h3>
-            <p className="text-slate-500 max-w-sm mx-auto">
+            <p className="text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
               {isAnalyzing 
                 ? 'Please wait while our AI reads the details securely.' 
                 : 'Take a clear photo or upload an image to identify medications and get simple instructions.'}
@@ -85,7 +88,7 @@ const UploadSection: React.FC<UploadSectionProps> = ({ onImageSelected, isAnalyz
           </div>
 
           {!isAnalyzing && (
-            <div className="flex items-center space-x-2 text-sm text-slate-400 font-medium pt-2">
+            <div className="flex items-center space-x-2 text-sm text-slate-400 dark:text-slate-500 font-medium pt-2">
               <ImageIcon className="w-4 h-4" />
               <span>Supports JPG, PNG, WEBP</span>
             </div>

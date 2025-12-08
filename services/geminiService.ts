@@ -74,6 +74,41 @@ export const createChatSession = (): Chat => {
   });
 };
 
+export const generateContextPrompt = (analysis: MedicationAnalysis): string => {
+  if (!analysis.isMedication || !analysis.medications.length) {
+    return "Context: The user scanned an image but no medication was identified. Be helpful if they have general questions.";
+  }
+
+  const medNames = analysis.medications.map(m => m.name).join(', ');
+  let text = `CONTEXT: The user is asking about the following scanned medication(s): ${medNames}.\n\n`;
+  
+  text += `FULL DETAILS FROM SCAN:\n`;
+  analysis.medications.forEach((med, idx) => {
+    text += `[Medication ${idx + 1}] ${med.name} (${med.strength || med.dosage})\n`;
+    text += `   - Purpose: ${med.purpose}\n`;
+    text += `   - Instructions: ${med.instructions}\n`;
+    text += `   - Frequency: ${med.frequency}\n`;
+    text += `   - Best Time: ${med.bestTime}\n`;
+    text += `   - Side Effects: ${med.sideEffects.join(', ')}\n`;
+    text += `   - Warnings: ${med.warnings.join(', ')}\n\n`;
+  });
+
+  if (analysis.interactions && analysis.interactions.length > 0) {
+    text += `INTERACTIONS IDENTIFIED IN SCAN:\n`;
+    analysis.interactions.forEach(interaction => {
+      text += `- [${interaction.severity.toUpperCase()}] ${interaction.description}\n`;
+    });
+    text += `\n`;
+  }
+
+  if (analysis.generalAdvice) {
+    text += `GENERAL ADVICE FROM LABEL: ${analysis.generalAdvice}\n`;
+  }
+
+  text += `\nINSTRUCTION: Use the above context to answer the user's questions specifically about this medication. Refer to the specific details found in the scan when possible to provide accurate assistance.`;
+  return text;
+};
+
 export const analyzeMedicationImage = async (base64Image: string, mimeType: string): Promise<MedicationAnalysis> => {
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   const currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -114,7 +149,7 @@ export const analyzeMedicationImage = async (base64Image: string, mimeType: stri
               description: "Important safety warnings or contraindications" 
             },
             symbolExplanations: {
-              type: Type.ARRAY,
+              type: Type.ARRAY, 
               items: { type: Type.STRING }, 
               description: "Explanations for any warning symbols found on packaging (e.g., 'Drowsiness warning', 'Do not drink alcohol')",
               nullable: true

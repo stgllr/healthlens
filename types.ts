@@ -40,13 +40,23 @@ export interface AnalysisState {
   imageUrl: string | null;
 }
 
+export interface ChatMessage {
+  role: 'user' | 'model';
+  text: string;
+  timestamp?: string;
+}
+
+export type DeviceType = 'mobile' | 'web';
+
 export interface SavedMedication extends MedicationAnalysis {
   id: string;
   dateScanned: string;
   imageUrl?: string | null;
+  deviceType: DeviceType;
+  chatHistory: ChatMessage[];
+  lastSynced?: string;
 }
 
-export interface ChatMessage {
-  role: 'user' | 'model';
-  text: string;
-}
+export type SyncStatus = 'synced' | 'syncing' | 'offline' | 'error';
+
+export type Theme = 'light' | 'dark';
